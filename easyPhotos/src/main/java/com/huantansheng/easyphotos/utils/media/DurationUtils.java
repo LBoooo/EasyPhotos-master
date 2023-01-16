@@ -3,6 +3,8 @@ package com.huantansheng.easyphotos.utils.media;
 import android.media.MediaMetadataRetriever;
 import android.text.format.DateUtils;
 
+import java.io.IOException;
+
 /**
  * DurationUtils
  * Create By lishilin On 2019/3/25
@@ -25,7 +27,11 @@ public class DurationUtils {
 //            e.printStackTrace();
         } finally {
             if (mmr != null) {
-                mmr.release();
+                try {
+                    mmr.release();
+                } catch (IOException e) {
+
+                }
             }
         }
         return 0;
