@@ -56,6 +56,11 @@ public class PhotosAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void loadMore(ArrayList<Photo> dataList){
+        this.dataList.addAll(dataList);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

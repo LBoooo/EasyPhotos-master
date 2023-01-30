@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,7 +77,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsAdapter.OnClickListener, PhotosAdapter.OnClickListener, AdListener, View.OnClickListener {
-
     private File mTempImageFile;
 
     private AlbumModel albumModel;
@@ -213,7 +213,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
     protected String[] getNeedPermissions() {
         if (Setting.isShowCamera) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 return new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_MEDIA_IMAGES,
@@ -229,7 +229,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             return new String[]{Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE};
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 return new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_MEDIA_IMAGES,
@@ -242,7 +242,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,};
             }
-            return new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         }
     }
 
@@ -728,7 +728,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         ((SimpleItemAnimator) rvPhotos.getItemAnimator()).setSupportsChangeAnimations(false);
         //去除item更新的闪光
         photoList.clear();
-        photoList.addAll(albumModel.getCurrAlbumItemPhotos(0));
+
+        photoList.addAll(albumModel.getCurrAlbumItemPhotos(0,1));
         int index = 0;
         if (Setting.hasPhotosAd()) {
             photoList.add(index, Setting.photosAdView);
@@ -752,8 +753,22 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 }
             });
         }
+
         rvPhotos.setLayoutManager(gridLayoutManager);
         rvPhotos.setAdapter(photosAdapter);
+
+        rvPhotos.addOnScrollListener(new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(final int page, int totalItemsCount, RecyclerView view) {
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Photo> ps = albumModel.getCurrAlbumItemPhotos(currAlbumItemIndex,page+1);
+                        photosAdapter.loadMore(ps);
+                    }
+                });
+            }
+        });
         tvOriginal = findViewById(R.id.tv_original);
         if (Setting.showOriginalMenu) {
             processOriginalMenu();

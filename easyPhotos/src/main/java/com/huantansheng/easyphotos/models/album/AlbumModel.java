@@ -345,6 +345,10 @@ public class AlbumModel {
         return album.getAlbumItem(currAlbumItemIndex).photos;
     }
 
+    public ArrayList<Photo> getCurrAlbumItemPhotos(int currAlbumItemIndex,int page){
+        return album.getAlbumItem(currAlbumItemIndex).queryPhotos(page);
+    }
+
     /**
      * 获取专辑项目集
      *

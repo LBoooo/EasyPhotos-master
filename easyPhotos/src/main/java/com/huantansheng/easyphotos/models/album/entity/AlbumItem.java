@@ -31,4 +31,15 @@ public class AlbumItem {
     public void addImageItem(int index, Photo imageItem) {
         this.photos.add(index, imageItem);
     }
+
+    public ArrayList<Photo> queryPhotos(int page) {
+        if (photos.size() / 20 < page) {
+            return new ArrayList<>();
+        }
+        ArrayList<Photo> pagePhotos = new ArrayList<>();
+        for (int i = 20 * (page - 1); i < Math.min(20 * page, photos.size()); i++) {
+            pagePhotos.add(photos.get(i));
+        }
+        return pagePhotos;
+    }
 }
