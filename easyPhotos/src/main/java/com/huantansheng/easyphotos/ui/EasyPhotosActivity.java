@@ -160,6 +160,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
         } else {
             permissionView.setVisibility(View.VISIBLE);
         }
+
     }
 
     private void adaptationStatusBar() {
@@ -212,6 +213,11 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
 
     protected String[] getNeedPermissions() {
+        return new String[]{
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+        };
+        /*
         if (Setting.isShowCamera) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 return new String[]{
@@ -244,6 +250,8 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             }
             return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         }
+
+         */
     }
 
 
