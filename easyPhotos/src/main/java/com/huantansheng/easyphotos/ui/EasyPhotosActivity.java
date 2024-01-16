@@ -213,17 +213,17 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
 
 
     protected String[] getNeedPermissions() {
-        return new String[]{
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO
-        };
-        /*
+//        return new String[]{
+//                Manifest.permission.READ_MEDIA_IMAGES,
+//                Manifest.permission.READ_MEDIA_VIDEO
+//        };
+
         if (Setting.isShowCamera) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 return new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_AUDIO,
+//                        Manifest.permission.READ_MEDIA_AUDIO,
                         Manifest.permission.READ_MEDIA_VIDEO
                 };
             }
@@ -239,7 +239,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
                 return new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.READ_MEDIA_IMAGES,
-                        Manifest.permission.READ_MEDIA_AUDIO,
+//                        Manifest.permission.READ_MEDIA_AUDIO,
                         Manifest.permission.READ_MEDIA_VIDEO
                 };
             }
@@ -251,7 +251,7 @@ public class EasyPhotosActivity extends AppCompatActivity implements AlbumItemsA
             return new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
         }
 
-         */
+
     }
 
 
